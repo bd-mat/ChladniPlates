@@ -7,8 +7,18 @@ Created on Sat Mar 29 18:51:49 2025
 
 import numpy as np
 
-MU = 0.3
 N = 52
+
+def MU(n,m):
+    # define mu (poisson's ratio) as a function
+    # of the spatial indices: n,m
+    # n: x, m: y
+    if n <= N/2:
+        return 0.2
+    if n >= N/2:
+        return 0.8
+    # simply "return [val]" for a constant mu
+
 
 def index(nx,ny):
     # gives vector index for nx,ny
@@ -29,84 +39,84 @@ def gl1_central(nx,ny,c):
     # equivalent of a central ghost point on left surface
     xs = np.array([nx+1,nx+1,nx+1,nx+2])
     ys = np.array([ny+1,ny,ny-1,ny])
-    cs = c*np.array([-MU,2-2*MU,-MU,-1])
+    cs = c*np.array([-MU(nx,ny),2-2*MU(nx,ny),-MU(nx,ny),-1])
     return xs,ys,cs
 
 def gl1_up(nx,ny,c):
     # up-sided ghost point on left surface
     xs = np.array([nx+1,nx+1,nx+1,nx+1,nx+2])
     ys = np.array([ny+3,ny+2,ny+1,ny,ny])
-    cs = c*np.array([MU,-4*MU,5*MU,2-2*MU,-1])
+    cs = c*np.array([MU(nx,ny),-4*MU(nx,ny),5*MU(nx,ny),2-2*MU(nx,ny),-1])
     return xs,ys,cs
 
 def gl1_down(nx,ny,c):
     # down-sided ghost point on left surface
     xs = np.array([nx+1,nx+1,nx+1,nx+1,nx+2])
     ys = np.array([ny,ny-1,ny-2,ny-3,ny])
-    cs = c*np.array([2-2*MU,5*MU,-4*MU,MU,-1])
+    cs = c*np.array([2-2*MU(nx,ny),5*MU(nx,ny),-4*MU(nx,ny),MU(nx,ny),-1])
     return xs,ys,cs
 
 def gr1_central(nx,ny,c):
     # equivalent of a central ghost point on right surface
     xs = np.array([nx-2,nx-1,nx-1,nx-1])
     ys = np.array([ny,ny+1,ny,ny-1])
-    cs = c*np.array([-1,-MU,2-2*MU,-MU])
+    cs = c*np.array([-1,-MU(nx,ny),2-2*MU(nx,ny),-MU(nx,ny)])
     return xs,ys,cs
 
 def gr1_up(nx,ny,c):
     # up-sided ghost point on right surface
     xs = np.array([nx-2,nx-1,nx-1,nx-1,nx-1])
     ys = np.array([ny,ny+3,ny+2,ny+1,ny])
-    cs = c*np.array([-1,MU,-4*MU,5*MU,2-2*MU])
+    cs = c*np.array([-1,MU(nx,ny),-4*MU(nx,ny),5*MU(nx,ny),2-2*MU(nx,ny)])
     return xs,ys,cs
 
 def gr1_down(nx,ny,c):
     # down-sided ghost point on right surface
     xs = np.array([nx-2,nx-1,nx-1,nx-1,nx-1])
     ys = np.array([ny,ny,ny-1,ny-2,ny-3])
-    cs = c*np.array([-1,2-2*MU,5*MU,-4*MU,MU])
+    cs = c*np.array([-1,2-2*MU(nx,ny),5*MU(nx,ny),-4*MU(nx,ny),MU(nx,ny)])
     return xs,ys,cs
 
 def gt1_central(nx,ny,c):
     # equivalent of a central ghost point on top surface
     xs = np.array([nx-1,nx,nx,nx+1])
     ys = np.array([ny-1,ny-1,ny-2,ny-1])
-    cs = c*np.array([-MU,2-2*MU,-1,-MU])
+    cs = c*np.array([-MU(nx,ny),2-2*MU(nx,ny),-1,-MU(nx,ny)])
     return xs,ys,cs
 
 def gt1_left(nx,ny,c):
     # left-sided ghost point on top surface
     xs = np.array([nx-3,nx-2,nx-1,nx,nx])
     ys = np.array([ny-1,ny-1,ny-1,ny-1,ny-2])
-    cs = c*np.array([MU,-4*MU,5*MU,2-2*MU,-1])
+    cs = c*np.array([MU(nx,ny),-4*MU(nx,ny),5*MU(nx,ny),2-2*MU(nx,ny),-1])
     return xs,ys,cs
 
 def gt1_right(nx,ny,c):
     # right-sided ghost point on top surface
     xs = np.array([nx,nx,nx+1,nx+2,nx+3])
     ys = np.array([ny-1,ny-2,ny-1,ny-1,ny-1])
-    cs = c*np.array([2-2*MU,-1,5*MU,-4*MU,MU])
+    cs = c*np.array([2-2*MU(nx,ny),-1,5*MU(nx,ny),-4*MU(nx,ny),MU(nx,ny)])
     return xs,ys,cs
 
 def gb1_central(nx,ny,c):
     # equivalent of a central ghost point on bottom surface
     xs = np.array([nx-1,nx,nx,nx+1])
     ys = np.array([ny+1,ny+2,ny+1,ny+1])
-    cs = c*np.array([-MU,-1,2-2*MU,-MU])
+    cs = c*np.array([-MU(nx,ny),-1,2-2*MU(nx,ny),-MU(nx,ny)])
     return xs,ys,cs
 
 def gb1_left(nx,ny,c):
     # left-sided ghost point on bottom surface
     xs = np.array([nx-3,nx-2,nx-1,nx,nx])
     ys = np.array([ny+1,ny+1,ny+1,ny+1,ny+2])
-    cs = c*np.array([MU,-4*MU,5*MU,2-2*MU,-1])
+    cs = c*np.array([MU(nx,ny),-4*MU(nx,ny),5*MU(nx,ny),2-2*MU(nx,ny),-1])
     return xs,ys,cs
 
 def gb1_right(nx,ny,c):
     # right-sided ghost point on bottom surface
     xs = np.array([nx,nx,nx+1,nx+2,nx+3])
     ys = np.array([ny+2,ny+1,ny+1,ny+1,ny+1])
-    cs = c*np.array([-1,2-2*MU,5*MU,-4*MU,MU])
+    cs = c*np.array([-1,2-2*MU(nx,ny),5*MU(nx,ny),-4*MU(nx,ny),MU(nx,ny)])
     return xs,ys,cs
 
 # 2nd ghost points
@@ -115,28 +125,28 @@ def gl2(nx,ny,c):
     # 2nd ghost point on left surface
     xs = np.array([nx+1,nx+1,nx+1,nx+3,nx+3,nx+3,nx+4])
     ys = np.array([ny+1,ny,ny-1,ny+1,ny,ny-1,ny])
-    cs = c*np.array([MU-2,6-2*MU,MU-2,2-MU,2*MU-6,2-MU,1])
+    cs = c*np.array([MU(nx,ny)-2,6-2*MU(nx,ny),MU(nx,ny)-2,2-MU(nx,ny),2*MU(nx,ny)-6,2-MU(nx,ny),1])
     return xs,ys,cs
 
 def gr2(nx,ny,c):
     # 2nd ghost point on right surface
     xs = np.array([nx-1,nx-1,nx-1,nx-3,nx-3,nx-3,nx-4])
     ys = np.array([ny+1,ny,ny-1,ny+1,ny,ny-1,ny])
-    cs = c*np.array([MU-2,6-2*MU,MU-2,2-MU,2*MU-6,2-MU,1])
+    cs = c*np.array([MU(nx,ny)-2,6-2*MU(nx,ny),MU(nx,ny)-2,2-MU(nx,ny),2*MU(nx,ny)-6,2-MU(nx,ny),1])
     return xs,ys,cs
 
 def gt2(nx,ny,c):
     # 2nd ghost point on top surface
     xs = np.array([nx-1,nx-1,nx,nx,nx,nx+1,nx+1])
     ys = np.array([ny-1,ny-3,ny-1,ny-3,ny-4,ny-1,ny-3])
-    cs = c*np.array([MU-2,2-MU,6-2*MU,2*MU-6,1,MU-2,2-MU])
+    cs = c*np.array([MU(nx,ny)-2,2-MU(nx,ny),6-2*MU(nx,ny),2*MU(nx,ny)-6,1,MU(nx,ny)-2,2-MU(nx,ny)])
     return xs,ys,cs
 
 def gb2(nx,ny,c):
     # 2nd ghost point on bottom surface
     xs = np.array([nx-1,nx-1,nx,nx,nx,nx+1,nx+1])
     ys = np.array([ny+3,ny+1,ny+4,ny+3,ny+1,ny+3,ny+1])
-    cs = c*np.array([2-MU,MU-2,1,2*MU-6,6-2*MU,2-MU,MU-2])
+    cs = c*np.array([2-MU(nx,ny),MU(nx,ny)-2,1,2*MU(nx,ny)-6,6-2*MU(nx,ny),2-MU(nx,ny),MU(nx,ny)-2])
     return xs,ys,cs
 
 # corner 1 schemes
