@@ -38,8 +38,10 @@ def main():
     eigenvalues = np.real(result[0])
     eigenvectors = np.real(result[1])
     print(len(eigenvalues))
-    for i in range(0,10):
-        plot(eigenvectors[:,i],eigenvalues[i],2704,i)
+    order = np.argsort(eigenvalues)
+    for i in range(0,100):
+        index = order[i]
+        plot(eigenvectors[:,index],eigenvalues[index],2704,index)
 
 if __name__ == '__main__':
     main()
