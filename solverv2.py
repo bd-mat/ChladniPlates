@@ -33,7 +33,7 @@ def plot(vector,L,num=1,i=1):
 def main():
     # import
     mu = 0.80
-    data = (1/(h**4))*np.load('080_diag000.npy')
+    data = (1/(h**4))*np.load('080_normal.npy')
     # solve v1
     result = np.linalg.eig(data)
     eigenvalues = np.real(result[0])
@@ -47,7 +47,7 @@ def main():
     for i in range(0,2704):
         ind = order[i]
         if eigenvalues[ind] > 0:
-            eff_freq[ind] = np.sqrt(eigenvalues[ind]*(1-mu**2))
+            eff_freq[ind] = np.sqrt(eigenvalues[ind]/(1-mu**2))
             if firstval:
                 print("set to",i)
                 start = i
